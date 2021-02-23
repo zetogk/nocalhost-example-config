@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: node-mainapi
+  name: node-mainapi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: node-mainapi
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: node-mainapi
+    spec:
+      containers:
+      - image: zetogk/nocalhost-example-mainapi:v20210222.1
+        name: nocalhost-example-mainapi
+        env:
+        - name: HOST_PET
+          value: http://node-generatepet.two.svc
+        - name: HOST_COUNTRY
+          value: http://node-getcountry.one.svc
+        ports:
+        - containerPort: 3000
+        volumeMounts:
+        - name: app
+          mountPath: /usr/src/app
+      volumes:
+      - name: app
+        emptyDir: {}
+      

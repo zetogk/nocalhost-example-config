@@ -1,0 +1,104 @@
+configProperties:
+  version: v2
+  envFile: env.dev
+
+application:
+  name: lhk
+  manifestType: rawManifest
+  resourcePath: ["manifest/templates"]
+  ignoredPath: []
+  #onPreInstall: 
+  #  - path: manifest/templates/pre-install/print-num-job-01.yaml
+  #    weight: "1"
+  #  - path: manifest/templates/pre-install/print-num-job-02.yaml
+  #    weight: "-5"
+  #env: 
+  #  - name: DEBUG
+  #    value: ${DEBUG:-false}
+  #  - name: DOMAIN
+  #    value: ${DOMAIN:-www.coding.com}
+  services:
+    - name: lhkapp
+      serviceType: deployment
+      dependLabelSelector: 
+        pods: 
+          - "app.kubernetes.io/name=generatepet"
+      #  jobs:
+      #    - "dep-job"
+      containers:
+        - name: node-mainapi
+          install: 
+            env: 
+              - name: DEBUG
+                value: "false"
+              - name: DOMAIN
+                value: "codingcorp.coding.com"
+              - name: HOST_PET
+                value: ${HOST_PET}
+              - name: HOST_COUNTRY
+                value: ${HOST_COUNTRY}
+            portForward:   
+              - 33000:3000
+          dev:
+            gitUrl: https://github.com/zetogk/nocalhost-example-mainapi
+            image: codingcorp-docker.pkg.coding.net/nocalhost/dev-images/node:slim
+            shell: bash
+            workDir: /usr/src/app
+            resources:
+              limits:
+                cpu: "0.5"
+                memory: 512Mi
+              requests:
+                cpu: "0.2"
+                memory: 128Mi
+            persistentVolumeDirs: 
+              - path: "/usr/src/app"
+                capacity: 2Gi
+            # command: 
+            #   build: ["./gradlew", "package"]
+            #   run: ["./gradlew", "bootRun"]
+            #   debug: ["./gradlew", "bootRun", "--debug-jvm"]
+            #   hotReloadRun: ["bash", "-c", "kill `ps -ef|grep -i gradlew| grep -v grep| awk '{print $2}'`; gradlew bootRun"]
+            #   hotReloadDebug: ["bash", "-c", "kill `ps -ef|grep -i gradlew| grep -v grep| awk '{print $2}'`; gradlew bootRun --debug-jvm"]
+            # debug: 
+            #   remoteDebugPort: 5005
+            # useDevContainer: false
+            sync: 
+              type: send
+              filePattern: 
+                - ./
+              ignoreFilePattern:
+                - ".git"
+            env: 
+            - name: DEBUG
+              value: "true"
+            portForward:
+            - 33000:3000
+    - name: node-generatepet
+      serviceType: deployment
+      containers:
+        - install: 
+            env: 
+              - name: DEBUG
+                value: "false"
+          dev:
+            gitUrl: https://github.com/zetogk/nocalhost-example-generatepet.git
+            image: codingcorp-docker.pkg.coding.net/nocalhost/dev-images/node:latest
+            shell: bash
+            workDir: /usr/src/app
+            resources:
+              limits:
+                cpu: "0.5"
+                memory: 512Mi
+              requests:
+                cpu: "0.2"
+                memory: 128Mi
+            sync: 
+              type: send
+              filePattern: 
+                - ./
+              ignoreFilePattern:
+                - ".git"
+            env: 
+            - name: DEBUG
+              value: "true"
