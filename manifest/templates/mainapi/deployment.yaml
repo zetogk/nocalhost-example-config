@@ -27,9 +27,9 @@ spec:
         ports:
         - containerPort: 3000
         volumeMounts:
-        - name: app
-          mountPath: /usr/src/app
+        - name: tmp
+          mountPath: /tmp
       volumes:
-      - name: app
+      - name: tmp
         emptyDir: {}
       
