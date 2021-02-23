@@ -20,9 +20,9 @@ application:
   services:
     - name: lhkapp
       serviceType: deployment
-      dependLabelSelector: 
-        pods: 
-          - "app.kubernetes.io/name=generatepet"
+      #dependLabelSelector: 
+      #  pods: 
+      #    - "app.kubernetes.io/name=generatepet"
       #  jobs:
       #    - "dep-job"
       containers:
