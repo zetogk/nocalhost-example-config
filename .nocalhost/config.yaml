@@ -33,17 +33,13 @@ application:
                 value: "false"
               - name: DOMAIN
                 value: "codingcorp.coding.com"
-              - name: HOST_PET
-                value: ${HOST_PET}
-              - name: HOST_COUNTRY
-                value: ${HOST_COUNTRY}
             portForward:   
               - 33000:3000
           dev:
             gitUrl: https://github.com/zetogk/nocalhost-example-mainapi
-            image: codingcorp-docker.pkg.coding.net/nocalhost/dev-images/node:slim
+            image: codingcorp-docker.pkg.coding.net/nocalhost/dev-images/node:12.18.1-slim
             shell: bash
-            workDir: /usr/src/app
+            workDir: /home/nocalhost-dev
             resources:
               limits:
                 cpu: "0.5"
@@ -52,7 +48,7 @@ application:
                 cpu: "0.2"
                 memory: 128Mi
             persistentVolumeDirs: 
-              - path: "/usr/src/app"
+              - path: "/home"
                 capacity: 2Gi
             # command: 
             #   build: ["./gradlew", "package"]
