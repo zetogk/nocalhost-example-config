@@ -1,20 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  creationTimestamp: null
   labels:
     app: node-mainapi
+    app.kubernetes.io/name: node-mainapi
   name: node-mainapi
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: node-mainapi
+      app.kubernetes.io/name: node-mainapi
   strategy: {}
   template:
     metadata:
       labels:
         app: node-mainapi
+        app.kubernetes.io/name: node-mainapi
     spec:
       containers:
       - image: zetogk/nocalhost-example-mainapi:v20210222.1

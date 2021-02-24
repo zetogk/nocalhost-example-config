@@ -17,5 +17,5 @@ services:
     - .
     ignoreFilePattern:
     - .git
-    runCommand: ["node", "index.js"]
+    runCommand: ["npm", "install", "&&", "node", "index.js"]
     hotReloadRunCommand: ["node", "index.js"]
