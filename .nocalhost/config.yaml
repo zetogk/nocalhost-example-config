@@ -3,13 +3,16 @@ manifestType: rawManifest
 resourcePath: ["manifest/templates"]
 
 services:
-  - name: mainapi
+  - name: node-mainapi
     serviceType: deployment
     gitUrl: https://github.com/zetogk/nocalhost-example-mainapi
-    devContainerImage: codingcorp-docker.pkg.coding.net/nocalhost/dev-images/node:12.18.1-slim
+    devContainerImage: codingcorp-docker.pkg.coding.net/nocalhost/dev-images/node:latest
     workDir: /root/nocalhost-dev
+    syncDirs:
+    - ./
     persistentVolumeDirs: 
     - path: /root
+      capacity: 256Mi
     devContainerShell: "bash"
     devPorts:
     - 33000:3000
